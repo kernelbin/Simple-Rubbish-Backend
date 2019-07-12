@@ -39,6 +39,14 @@ void WINAPI ListenThread()
 	//创建IO完成端口
 	hCompPort = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
 
+	SYSTEM_INFO SysInfo;//用来取得CPU数量等信息
+	GetSystemInfo(&SysInfo);
+
+	for (int i = 0; i < SysInfo.dwNumberOfProcessors; i++)
+	{
+		HANDLE hCPThread = _beginthreadex(0, 0, CompletionPortMain, 0, 0, 0);
+		CloseHandle(hCPThread);
+	}
 
 	int iret = bind(ListenSock, &ServerAddr, sizeof(SOCKADDR_IN));
 
@@ -104,6 +112,13 @@ void WINAPI ListenThread()
 		}
 
 	}
+}
+
+
+void __stdcall CompletionPortMain(void)
+{
+	MessageBox(NULL, TEXT(""), TEXT(""), 0);
+	return;
 }
 
 

@@ -78,3 +78,7 @@ pIOCPMODEPACK CreateModePack(int Mode);
 
 BOOL DeleteModePack(pIOCPMODEPACK ModePack);
 
+
+
+
+void __stdcall CompletionPortMain(void);//Íê³É¶Ë¿Ú
