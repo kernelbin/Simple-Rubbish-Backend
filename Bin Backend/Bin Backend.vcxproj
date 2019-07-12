@@ -147,12 +147,14 @@
     <ClCompile Include="ConsoleThread.c" />
     <ClCompile Include="Main.c" />
     <ClCompile Include="MessageCenter.c" />
+    <ClCompile Include="PackParser.c" />
     <ClCompile Include="SocketEngine.c" />
     <ClCompile Include="VBuffer.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClientManager.h" />
     <ClInclude Include="Global.h" />
+    <ClInclude Include="PackStructDef.h" />
     <ClInclude Include="SocketEngine.h" />
     <ClInclude Include="VBuffer.h" />
   </ItemGroup>

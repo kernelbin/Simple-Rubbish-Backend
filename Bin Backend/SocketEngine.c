@@ -74,7 +74,7 @@ void WINAPI ListenThread()
 		//创建客户端对象
 		pCLIENT_INFO CInfo = AllocClient();
 		
-
+		CInfo->ClientSock = ClientSock;
 		CreateIoCompletionPort((HANDLE)ClientSock, hCompPort, CInfo, 0);
 
 		
@@ -139,11 +139,34 @@ void __stdcall CompletionPortMain(void)
 				{
 				case PARSE_WAITFOR_HEADER:
 					//处理收到数据包头部。调整内存准备接受包主体
-					AdjustVBuf(CInfo->Data, CInfo->PackLen);
+					if (CInfo->PackLen)
+					{
+						AdjustVBuf(CInfo->Data, CInfo->PackLen);
+						//设置WSABUF
+						CInfo->PackBody.buf = CInfo->Data->Data;
+						CInfo->PackBody.len = CInfo->PackLen;
+
+						DWORD Flags = 0;
+						pIOCPMODEPACK NewModePack = CreateModePack(IO_RECV);
+
+						CInfo->PackParseState = PARSE_WAITFOR_PACKBODY;
+
+						WSARecv(CInfo->ClientSock,
+							&(CInfo->PackBody), 1,
+							NULL,
+							&Flags,
+							(LPWSAOVERLAPPED)NewModePack, 0);
+					}
+					else
+					{
+						//TODO: 空包。接收下一个包头
+					}
+					 
 					break;
 
 				case PARSE_WAITFOR_PACKBODY:
 					//处理收到数据包主体，解析完毕之后分发事件
+					
 					break;
 				}
 				break;
@@ -163,7 +186,7 @@ void __stdcall CompletionPortMain(void)
 			}
 		}
 
-
+		DeleteModePack(pModePack);
 	}
 	return;
 }

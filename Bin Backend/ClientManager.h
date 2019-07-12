@@ -6,6 +6,8 @@
 
 typedef struct __tagClientInfo
 {
+	SOCKET ClientSock;//这个客户端的Socket
+
 	int ClientID;
 	PWCHAR ClientDescription;//这个垃圾桶的文字描述
 
@@ -14,6 +16,7 @@ typedef struct __tagClientInfo
 	BYTE PackID;
 	unsigned int PackLen;
 
+	WSABUF PackBody;
 	pVBUF Data;
 }CLIENT_INFO, * pCLIENT_INFO;
 
