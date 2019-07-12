@@ -1,6 +1,8 @@
 #pragma once
 #include<Windows.h>
 #include"Global.h"
+#include"VBuffer.h"
+
 
 typedef struct __tagClientInfo
 {
@@ -12,9 +14,7 @@ typedef struct __tagClientInfo
 	BYTE PackID;
 	unsigned int PackLen;
 
-	unsigned int Capibility;
-	PBYTE PackageData;
-
+	pVBUF Data;
 }CLIENT_INFO, * pCLIENT_INFO;
 
 

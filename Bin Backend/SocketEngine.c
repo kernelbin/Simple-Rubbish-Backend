@@ -117,7 +117,54 @@ void WINAPI ListenThread()
 
 void __stdcall CompletionPortMain(void)
 {
-	MessageBox(NULL, TEXT(""), TEXT(""), 0);
+	DWORD ByteTrans;
+	pCLIENT_INFO CInfo;
+	IOCPMODEPACK * pModePack = 0;
+	while (1)
+	{
+		//TODO:使用GetQueuedCompletionStatusEx可以进一步大幅提升性能
+		BOOL bOK = GetQueuedCompletionStatus(hCompPort, &ByteTrans, (PULONG_PTR)& CInfo, (LPOVERLAPPED *)& pModePack, INFINITE);
+		DWORD dwErr = GetLastError();
+		if (bOK)
+		{
+			//正常
+			switch (pModePack->IOMode)
+			{
+			case IO_SEND:
+				//处理发送数据成功
+				break;
+			case IO_RECV:
+				//处理接受数据成功
+				switch (CInfo->PackParseState)
+				{
+				case PARSE_WAITFOR_HEADER:
+					//处理收到数据包头部。调整内存准备接受包主体
+					AdjustVBuf(CInfo->Data, CInfo->PackLen);
+					break;
+
+				case PARSE_WAITFOR_PACKBODY:
+					//处理收到数据包主体，解析完毕之后分发事件
+					break;
+				}
+				break;
+			}
+		}
+		else 
+		{
+			if (pModePack)
+			{
+				//出错了，dwErr是错误码
+				SendMessage(hMessageCenter, WM_THROWEXCEPTION, TEXT("GetQueuedCompletionStatus函数出错。GetLastError返回值为"), dwErr);
+			}
+			else
+			{
+				//我设置了INFINITE，所以如果出错一定不会是超时。看来是传入的参数无效
+				SendMessage(hMessageCenter, WM_THROWEXCEPTION, TEXT("GetQueuedCompletionStatus函数出错，参数无效。GetLastError返回值为"), dwErr);
+			}
+		}
+
+
+	}
 	return;
 }
 

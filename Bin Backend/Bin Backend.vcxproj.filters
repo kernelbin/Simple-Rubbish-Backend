@@ -30,6 +30,9 @@
     <ClCompile Include="ClientManager.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="VBuffer.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h">
@@ -39,6 +42,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="SocketEngine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="VBuffer.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

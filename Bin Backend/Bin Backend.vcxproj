@@ -148,11 +148,13 @@
     <ClCompile Include="Main.c" />
     <ClCompile Include="MessageCenter.c" />
     <ClCompile Include="SocketEngine.c" />
+    <ClCompile Include="VBuffer.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ClientManager.h" />
     <ClInclude Include="Global.h" />
     <ClInclude Include="SocketEngine.h" />
+    <ClInclude Include="VBuffer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
