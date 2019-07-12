@@ -40,8 +40,6 @@ void WINAPI ListenThread()
 	hCompPort = CreateIoCompletionPort(INVALID_HANDLE_VALUE, NULL, 0, 0);
 
 
-	这里！！创建线程池并且调用GetQueuedCompletionStatus
-
 	int iret = bind(ListenSock, &ServerAddr, sizeof(SOCKADDR_IN));
 
 	listen(ListenSock, SOCK_MAX_LISTEN);
