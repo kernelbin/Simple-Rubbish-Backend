@@ -152,6 +152,7 @@
     <ClCompile Include="Main.c" />
     <ClCompile Include="MessageCenter.c" />
     <ClCompile Include="PackParser.c" />
+    <ClCompile Include="SIOEngine.cpp" />
     <ClCompile Include="sio_client.cpp" />
     <ClCompile Include="sio_socket.cpp" />
     <ClCompile Include="SocketEngine.c" />

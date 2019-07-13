@@ -51,6 +51,9 @@
     <ClCompile Include="internal\sio_packet.cpp">
       <Filter>源文件\Socket.IO</Filter>
     </ClCompile>
+    <ClCompile Include="SIOEngine.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h">

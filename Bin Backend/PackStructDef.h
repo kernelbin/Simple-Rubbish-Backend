@@ -24,8 +24,3 @@ typedef struct __tagPackConnReq
 	PWCHAR BinDescription;
 }PACK_CONNREQ;
 
-
-typedef struct
-{
-	int test;
-}PACK_TEST;

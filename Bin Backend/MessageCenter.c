@@ -18,6 +18,7 @@ LRESULT CALLBACK MessageCenterProc(HWND hwnd, UINT message, WPARAM wParam, LPARA
 	switch (message)
 	{
 	case WM_CREATE:
+		
 		return 0;
 	case WM_CONCOMMAND:
 		//÷∏¡Óœ˚œ¢
@@ -29,6 +30,11 @@ LRESULT CALLBACK MessageCenterProc(HWND hwnd, UINT message, WPARAM wParam, LPARA
 		HANDLE_COMMAND("exit")
 		{
 			PostQuitMessage(0);
+			break;
+		}
+		HANDLE_COMMAND("connect")
+		{
+			SocketIOConnect();
 			break;
 		}
 

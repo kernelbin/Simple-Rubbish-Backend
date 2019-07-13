@@ -84,3 +84,15 @@ BOOL DeleteModePack(pIOCPMODEPACK ModePack);
 
 
 void __stdcall CompletionPortMain(void);//Íê³É¶Ë¿Ú
+
+
+
+
+#define SERVER_ADDR "127.0.0.1"
+#define SERVER_PORT "23333"
+
+#ifdef __cplusplus
+extern "C" BOOL SocketIOConnect();
+#else
+BOOL SocketIOConnect();
+#endif
