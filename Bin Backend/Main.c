@@ -14,7 +14,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	InitConsole();
 
-//临时代码
+	//临时代码
+
 #ifdef APP_TYPE_WINDOWS
 	OpenConsole();
 #endif
