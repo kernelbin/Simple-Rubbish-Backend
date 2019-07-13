@@ -189,6 +189,8 @@ void __stdcall CompletionPortMain(void)
 					case PACKID_CONNREQ:
 					{
 						PACK_CONNREQ TestPack;
+						int PackConnReqType[1] = { VAR_STRING };
+
 						ParsePack(CInfo->Data->Data, &TestPack, PackConnReqType);
 						break;
 					}
@@ -256,3 +258,5 @@ BOOL DeleteModePack(pIOCPMODEPACK ModePack)
 	free(ModePack);
 	return TRUE;
 }
+
+

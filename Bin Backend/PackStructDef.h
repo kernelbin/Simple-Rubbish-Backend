@@ -1,3 +1,4 @@
+#pragma once
 #include<Windows.h>
 
 //¶¨Òå×Ö¶Î
@@ -23,4 +24,8 @@ typedef struct __tagPackConnReq
 	PWCHAR BinDescription;
 }PACK_CONNREQ;
 
-static int PackConnReqType[1] = { VAR_STRING };
+
+typedef struct
+{
+	int test;
+}PACK_TEST;

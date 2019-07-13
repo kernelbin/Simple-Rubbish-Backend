@@ -47,6 +47,10 @@ BOOL AdjustVBuf(pVBUF pVBuf, DWORD Size)
 	return 0;
 }
 
+BOOL AddSizeVBuf(pVBUF pVBuf,DWORD AddSize)
+{
+	return AdjustVBuf(pVBuf, pVBuf->Length + AddSize);
+}
 
 DWORD VBufGetCorrectSize(DWORD Size)
 {

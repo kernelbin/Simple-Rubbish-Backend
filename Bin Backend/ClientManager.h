@@ -6,6 +6,7 @@
 
 typedef struct __tagClientInfo
 {
+	int ListIndex;//用于回溯列表中的位置
 	SOCKET ClientSock;//这个客户端的Socket
 
 	int ClientID;
@@ -21,6 +22,7 @@ typedef struct __tagClientInfo
 }CLIENT_INFO, * pCLIENT_INFO;
 
 
+BOOL InitClientManager();
 pCLIENT_INFO AllocClient();
 BOOL FreeClient(pCLIENT_INFO CInfo);
 
@@ -29,5 +31,8 @@ BOOL FreeClient(pCLIENT_INFO CInfo);
 
 #define MAX_CLIENT 1024
 
+
+SRWLOCK CInfoListSRWLock;
+//访问下面这两个变量需要先申请访问SRW锁
 int ClientCount;
 pCLIENT_INFO CInfoList[MAX_CLIENT];

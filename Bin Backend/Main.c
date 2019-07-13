@@ -7,6 +7,37 @@ void WINAPI ConsoleThread();
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int iCmdShow)
 {
+
+	PACK_CONNREQ strct;
+	PACK_TEST t;
+	t.test = 123;
+	strct.BinDescription = malloc(2345);
+	lstrcpyW(strct.BinDescription, L"test");
+	pVBUF vbuf = AllocVBuf();
+	int tarr[1] = { VAR_INT };
+	//debug”√
+	WriteStructToVBufFunc(&t, vbuf ,tarr ,1 );
+
+
+	return 0;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 	InitMessageCenter();
 
 
@@ -18,7 +49,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 #endif
 	
 
-	
+	InitClientManager();
 
 	InitSocket();
 	

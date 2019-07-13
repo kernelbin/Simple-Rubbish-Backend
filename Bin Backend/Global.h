@@ -6,6 +6,8 @@
 #include<malloc.h>
 #include"ClientManager.h"
 #include"SocketEngine.h"
+#include"PackParser.h"
+
 #pragma comment(lib,"Ws2_32.lib")
 
 
@@ -69,7 +71,7 @@ SOCKET ListenSock;
 
 HANDLE hCompPort;//Íê³É¶Ë¿Ú¾ä±ú
 
-#define SOCK_PORT 37489
+#define SOCK_PORT 23456
 #define SOCK_MAX_LISTEN 255
 BOOL InitSocket();
 

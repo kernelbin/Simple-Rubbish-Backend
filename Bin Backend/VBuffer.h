@@ -5,9 +5,10 @@ typedef struct __tagVBuffer
 	DWORD Length;
 	DWORD Capibility;
 	PBYTE Data;
-}VBUFFER,VBUF,*pVBUF;
+}VBUF, *pVBUF;
 
 pVBUF AllocVBuf();
 BOOL FreeVBuf(pVBUF pVBuf);
 BOOL AdjustVBuf(pVBUF pVBuf, DWORD Size);
+BOOL AddSizeVBuf(pVBUF pVBuf, DWORD AddSize);
 DWORD VBufGetCorrectSize(DWORD Size);
