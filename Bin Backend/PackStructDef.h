@@ -17,7 +17,7 @@
 
 
 
-#define PACKID_CONNREQ 1
+#define PACKID_LOGON 1
 //定义包结构体
 typedef struct __tagPacLogon
 {

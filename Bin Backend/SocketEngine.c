@@ -203,13 +203,16 @@ void __stdcall CompletionPortMain(void)
 					//处理收到数据包主体，解析完毕之后分发事件
 					switch (CInfo->PackID)
 					{
-					case PACKID_CONNREQ:
+					case PACKID_LOGON:
 					{
-						PACK_LOGON TestPack;
-						int PackConnReqType[1] = { VAR_STRING };
+						PACK_LOGON LoginPack;
+						int PackLoginType[1] = { VAR_STRING };
+						ParsePack(CInfo->Data->Data, &LoginPack, PackLoginType);
 
-						ParsePack(CInfo->Data->Data, &TestPack, PackConnReqType);
-						MessageBoxW(0, TestPack.ClientSSID, TestPack.ClientSSID, 0);
+						lstrcpyW(CInfo->ClientUUID, LoginPack.ClientSSID);
+
+						FreePack(&LoginPack, PackLoginType);
+						//MessageBoxW(0, TestPack.ClientSSID, TestPack.ClientSSID, 0);
 						break;
 					}
 						

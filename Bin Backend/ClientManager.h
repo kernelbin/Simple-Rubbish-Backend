@@ -11,6 +11,7 @@ typedef struct __tagClientInfo
 
 	int ClientID;
 	PWCHAR ClientDescription;//这个垃圾桶的文字描述
+	WCHAR ClientUUID[35];
 
 	int PackParseState;
 	WSABUF PackHeader[2];//数据包头

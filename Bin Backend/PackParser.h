@@ -9,4 +9,8 @@ BOOL ParsePackFunc(BYTE* Data, void** PackStruct, int TypeArray[], int Num);
 #define WriteStructToVBuf(PackStruct,Buffer,TypeArray) WriteStructToVBufFunc(PackStruct,Buffer,TypeArray,(sizeof(TypeArray)/sizeof(TypeArray[0])))
 BOOL WriteStructToVBufFunc(void** PackStruct, pVBUF Buffer, int TypeArray[], int Num);
 
+#define FreePack(PackStruct, TypeArray) FreePackFunc(PackStruct, TypeArray,(sizeof(TypeArray)/sizeof(TypeArray[0])))
+BOOL FreePackFunc(void* PackStruct, int TypeArray[], int Num);
+
+
 //BOOL WriteStructToVBufFunc(void * PackStruct, pVBUF Buffer, int TypeArray[], int Num);

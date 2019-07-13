@@ -59,7 +59,6 @@ BOOL FreePackFunc(void* PackStruct, int TypeArray[], int Num)
 		break;
 		case VAR_STRING:
 		{
-			PackStructPointer += sizeof(unsigned short);
 			free(*((PWCHAR*)PackStructPointer));
 			PackStructPointer += sizeof(PWCHAR);
 		}
