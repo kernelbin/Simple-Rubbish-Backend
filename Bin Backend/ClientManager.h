@@ -27,3 +27,7 @@ BOOL FreeClient(pCLIENT_INFO CInfo);
 #define PARSE_WAITFOR_HEADER 1
 #define PARSE_WAITFOR_PACKBODY 2
 
+#define MAX_CLIENT 1024
+
+int ClientCount;
+pCLIENT_INFO CInfoList[MAX_CLIENT];

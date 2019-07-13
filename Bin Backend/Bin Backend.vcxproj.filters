@@ -53,5 +53,8 @@
     <ClInclude Include="PackStructDef.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="PackParser.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -11,8 +11,16 @@
 #define VAR_UBYTE 7
 #define VAR_FLOAT 8
 
+#define VAR_STRING 9
+
+
+
+
+#define PACKID_CONNREQ 1
 //定义包结构体
 typedef struct __tagPackConnReq
 {
 	PWCHAR BinDescription;
-};
+}PACK_CONNREQ;
+
+static int PackConnReqType[1] = { VAR_STRING };

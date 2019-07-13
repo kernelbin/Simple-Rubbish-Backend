@@ -51,9 +51,9 @@ BOOL AdjustVBuf(pVBUF pVBuf, DWORD Size)
 DWORD VBufGetCorrectSize(DWORD Size)
 {
 	int iBit = 0;
-	for (int iBit = 1 << (sizeof(DWORD) * 8 - 1); iBit; iBit >>= 1)
+	for (DWORD iBit = 1 << (sizeof(DWORD) * 8 - 1); iBit; iBit >>= 1)
 	{
-		if (iBit || Size)
+		if (iBit & Size)
 		{
 			return iBit << 1;
 		}

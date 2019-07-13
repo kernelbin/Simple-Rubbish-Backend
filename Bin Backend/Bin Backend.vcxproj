@@ -154,6 +154,7 @@
   <ItemGroup>
     <ClInclude Include="ClientManager.h" />
     <ClInclude Include="Global.h" />
+    <ClInclude Include="PackParser.h" />
     <ClInclude Include="PackStructDef.h" />
     <ClInclude Include="SocketEngine.h" />
     <ClInclude Include="VBuffer.h" />

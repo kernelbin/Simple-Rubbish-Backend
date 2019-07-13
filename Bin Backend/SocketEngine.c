@@ -4,6 +4,8 @@
 #include"Global.h"
 #include"SocketEngine.h"
 #include"ClientManager.h"
+#include"PackStructDef.h"
+#include"PackParser.h"
 //负责维护socket的正常运行，线程调度，以及解包封包
 
 BOOL InitSocket()
@@ -19,6 +21,21 @@ BOOL InitSocket()
 BOOL FinSocket()
 {
 	//关闭listen的socket，并且等待线程全部退出
+
+	pIOCPMODEPACK ModePack = CreateModePack(IO_EXIT);
+
+	SYSTEM_INFO SysInfo;//用来取得CPU数量等信息
+	GetSystemInfo(&SysInfo);
+
+	for (int i = 0; i < SysInfo.dwNumberOfProcessors; i++)
+	{
+		PostQueuedCompletionStatus(hCompPort, 0, 0, (LPOVERLAPPED)ModePack);
+		//TODO: 我觉得还是需要我们手动等待一下几个线程彻底结束
+	}
+	
+	//这里！！！PostQueuedCompletionStatus来结束IOCP线程。可能需要一个新的Overlapped的ModePack
+	//	Windows Via C++里有sample
+
 	closesocket(ListenSock);
 	WaitForSingleObject(hListenThread, INFINITE);
 	return 0;
@@ -120,6 +137,7 @@ void __stdcall CompletionPortMain(void)
 	DWORD ByteTrans;
 	pCLIENT_INFO CInfo;
 	IOCPMODEPACK * pModePack = 0;
+	BOOL bExit = FALSE;
 	while (1)
 	{
 		//TODO:使用GetQueuedCompletionStatusEx可以进一步大幅提升性能
@@ -166,9 +184,34 @@ void __stdcall CompletionPortMain(void)
 
 				case PARSE_WAITFOR_PACKBODY:
 					//处理收到数据包主体，解析完毕之后分发事件
-					
+					switch (CInfo->PackID)
+					{
+					case PACKID_CONNREQ:
+					{
+						PACK_CONNREQ TestPack;
+						ParsePack(CInfo->Data->Data, &TestPack, PackConnReqType);
+						break;
+					}
+						
+					}
+
+					CInfo->PackParseState = PARSE_WAITFOR_HEADER;
+
+					pIOCPMODEPACK NewModePack = CreateModePack(IO_RECV);
+
+					DWORD Flags = 0;
+					WSARecv(CInfo->ClientSock,
+						CInfo->PackHeader, 2,
+						NULL,
+						&Flags,
+						(LPWSAOVERLAPPED)NewModePack, 0);
+
 					break;
 				}
+				break;
+
+			case IO_EXIT:
+				bExit = TRUE;
 				break;
 			}
 		}
@@ -185,8 +228,15 @@ void __stdcall CompletionPortMain(void)
 				SendMessage(hMessageCenter, WM_THROWEXCEPTION, TEXT("GetQueuedCompletionStatus函数出错，参数无效。GetLastError返回值为"), dwErr);
 			}
 		}
-
-		DeleteModePack(pModePack);
+		if (pModePack)
+		{
+			DeleteModePack(pModePack);
+		}
+		if (bExit)
+		{
+			return;//退出线程
+		}
+		
 	}
 	return;
 }

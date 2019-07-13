@@ -5,6 +5,7 @@
 
 #define IO_SEND 1
 #define IO_RECV 2
+#define IO_EXIT 3
 typedef struct __tagIocpModePack
 {
 	WSAOVERLAPPED Overlapped;
