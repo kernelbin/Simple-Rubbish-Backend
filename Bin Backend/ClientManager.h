@@ -19,6 +19,17 @@ typedef struct __tagClientInfo
 
 	WSABUF PackBody;
 	pVBUF Data;
+
+
+	SRWLOCK WSASendLock;//一个客户端一次只能有一个数据包发送
+	
+	//LONG IsSending;//由于没法使用SRWLOCK,(跨线程使用资源) 只能用原子锁
+	WSABUF PackSend[3];
+	pVBUF SendData;//发送数据缓冲区
+	BYTE SendPackID;
+	unsigned int SendPackLen;
+
+
 }CLIENT_INFO, * pCLIENT_INFO;
 
 

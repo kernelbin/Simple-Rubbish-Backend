@@ -19,8 +19,8 @@
 
 #define PACKID_CONNREQ 1
 //定义包结构体
-typedef struct __tagPackConnReq
+typedef struct __tagPacLogon
 {
-	PWCHAR BinDescription;
-}PACK_CONNREQ;
+	PWCHAR ClientSSID;
+}PACK_LOGON;
 

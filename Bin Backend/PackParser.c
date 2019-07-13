@@ -24,8 +24,11 @@ BOOL ParsePackFunc(BYTE* Data, void ** PackStruct,int TypeArray[],int Num)
 		{
 			unsigned short * pStrLen;
 			pStrLen = (unsigned short*)Data;
+
+			printf("Strlen = %d\n", *pStrLen);
 			Data += sizeof(unsigned short);
-			PackStructPointer += sizeof(unsigned short);
+			
+			
 			PBYTE UTF8Str = Data;
 
 			int UTF16Len = MultiByteToWideChar(CP_UTF8, 0, UTF8Str, (*pStrLen), 0, 0);
@@ -86,8 +89,11 @@ BOOL WriteStructToVBufFunc(void** PackStruct, pVBUF Buffer, int TypeArray[], int
 		case VAR_STRING:
 		{
 			AddSizeVBuf(Buffer, sizeof(unsigned short));
+			MessageBox(NULL, *((PWCHAR*)PackStructPointer), *((PWCHAR*)PackStructPointer), 0);
+
 			int cbStrLen = WideCharToMultiByte(CP_UTF8, 0, *((PWCHAR*)PackStructPointer), lstrlenW(*((PWCHAR*)PackStructPointer)), 0, 0, 0, 0);
 			*((unsigned short*)(Buffer->Data + iDataMove)) = cbStrLen;
+			
 			//pStrLen = (unsigned short*)Data;
 			iDataMove += sizeof(unsigned short);
 			//PackStructPointer += sizeof(unsigned short);
@@ -105,3 +111,5 @@ BOOL WriteStructToVBufFunc(void** PackStruct, pVBUF Buffer, int TypeArray[], int
 		}
 	}
 }
+
+

@@ -150,9 +150,18 @@ void __stdcall CompletionPortMain(void)
 			{
 			case IO_SEND:
 				//处理发送数据成功
+				MessageBox(NULL, TEXT(""), TEXT(""), 0);
+				ReleaseSRWLockExclusive(&(CInfo->WSASendLock));
 				break;
 			case IO_RECV:
-				//处理接受数据成功
+				//处理接受数据
+
+				if (ByteTrans == 0)
+				{
+					//连接断开
+					closesocket(CInfo->ClientSock);
+					FreeClient(CInfo);
+				}
 				switch (CInfo->PackParseState)
 				{
 				case PARSE_WAITFOR_HEADER:
@@ -174,6 +183,14 @@ void __stdcall CompletionPortMain(void)
 							NULL,
 							&Flags,
 							(LPWSAOVERLAPPED)NewModePack, 0);
+
+						PACK_LOGON TestPack;
+						int PackConnReqType[1] = { VAR_STRING };
+						TestPack.ClientSSID = malloc(1000);
+						lstrcpyW(TestPack.ClientSSID, L"喵qwq");
+						//int PackConnReqType[1] = { VAR_STRING };
+						printf("sending");
+						ClientSendPackFunc(CInfo, 4, &TestPack, PackConnReqType, 1);
 					}
 					else
 					{
@@ -188,10 +205,11 @@ void __stdcall CompletionPortMain(void)
 					{
 					case PACKID_CONNREQ:
 					{
-						PACK_CONNREQ TestPack;
+						PACK_LOGON TestPack;
 						int PackConnReqType[1] = { VAR_STRING };
 
 						ParsePack(CInfo->Data->Data, &TestPack, PackConnReqType);
+						MessageBoxW(0, TestPack.ClientSSID, TestPack.ClientSSID, 0);
 						break;
 					}
 						
@@ -202,11 +220,33 @@ void __stdcall CompletionPortMain(void)
 					pIOCPMODEPACK NewModePack = CreateModePack(IO_RECV);
 
 					DWORD Flags = 0;
-					WSARecv(CInfo->ClientSock,
+					int iret = WSARecv(CInfo->ClientSock,
 						CInfo->PackHeader, 2,
 						NULL,
 						&Flags,
 						(LPWSAOVERLAPPED)NewModePack, 0);
+					if (iret == 0)
+					{
+						//没问题
+					}
+					else if (iret == SOCKET_ERROR)
+					{
+						int err = WSAGetLastError();
+						if (err == ERROR_IO_PENDING)
+						{
+							//没问题
+						}
+						else
+						{
+							//出错了
+							SendMessage(hMessageCenter, WM_THROWEXCEPTION, TEXT("WSARecv函数执行出错，WSAGetLastError返回值为"), err);
+						}
+					}
+					else
+					{
+						//出错了
+						SendMessage(hMessageCenter, WM_THROWEXCEPTION, TEXT("WSARecv函数执行出错，WSARecv返回值为"), iret);
+					}
 
 					break;
 				}
@@ -241,6 +281,40 @@ void __stdcall CompletionPortMain(void)
 		
 	}
 	return;
+}
+
+
+
+BOOL ClientSendPackFunc(pCLIENT_INFO CInfo,BYTE PackID, void** PackStruct, int TypeArray[],int Num)
+{
+	//只能一个send
+	
+	AcquireSRWLockExclusive(&(CInfo->WSASendLock));
+
+	AdjustVBuf(CInfo->SendData, 0);
+	printf("Num = %d", Num);
+	WriteStructToVBufFunc(PackStruct, CInfo->SendData, TypeArray, Num);
+	
+	CInfo->SendPackLen = CInfo->SendData->Length;
+	CInfo->SendPackID = PackID;
+	CInfo->PackSend[0].buf = &(CInfo->SendPackID);
+	CInfo->PackSend[0].len = sizeof(BYTE);
+	CInfo->PackSend[1].buf = &(CInfo->SendPackLen);
+	CInfo->PackSend[1].len = sizeof(unsigned int);
+	CInfo->PackSend[2].buf = (CInfo->SendData->Data);
+	CInfo->PackSend[2].len = CInfo->SendData->Length;
+
+	printf("CInfo->SendData->Length = %d", CInfo->SendData->Length);
+	DWORD Flags = 0;
+	pIOCPMODEPACK ModePack = CreateModePack(IO_SEND);
+	printf("sended");
+	DWORD BytesSend = 0;
+	int ret = WSASend(CInfo->ClientSock, CInfo->PackSend, 3, 0, 0, ModePack, 0);
+	DWORD err = WSAGetLastError();
+	printf("ret = %d\nerr = %d\n", ret,err);
+
+	//ReleaseSRWLockExclusive(&(CInfo->WSASendLock));
+
 }
 
 

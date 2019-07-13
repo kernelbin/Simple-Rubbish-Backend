@@ -36,6 +36,9 @@ pCLIENT_INFO AllocClient()
 
 	CInfo->Data = AllocVBuf();
 
+	InitializeSRWLock(&CInfo->WSASendLock);
+	//CInfo->IsSending = 0;
+	CInfo->SendData = AllocVBuf();
 	//
 	return CInfo;
 }
@@ -43,7 +46,7 @@ pCLIENT_INFO AllocClient()
 BOOL FreeClient(pCLIENT_INFO CInfo)
 {
 	FreeVBuf(CInfo->Data);
-
+	FreeVBuf(CInfo->SendData);
 	//´Ó±íÖÐÉ¾³ý
 	AcquireSRWLockExclusive(&CInfoListSRWLock);
 	CInfoList[CInfo->ListIndex] = CInfoList[--ClientCount];

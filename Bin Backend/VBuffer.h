@@ -1,3 +1,4 @@
+#pragma once
 #include<Windows.h>
 
 typedef struct __tagVBuffer
