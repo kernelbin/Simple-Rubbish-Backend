@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="源文件\Socket.IO">
+      <UniqueIdentifier>{a0462021-8d66-4a52-9a4a-1ee590b58161}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.c">
@@ -36,6 +39,18 @@
     <ClCompile Include="PackParser.c">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="sio_client.cpp">
+      <Filter>源文件\Socket.IO</Filter>
+    </ClCompile>
+    <ClCompile Include="sio_socket.cpp">
+      <Filter>源文件\Socket.IO</Filter>
+    </ClCompile>
+    <ClCompile Include="internal\sio_client_impl.cpp">
+      <Filter>源文件\Socket.IO</Filter>
+    </ClCompile>
+    <ClCompile Include="internal\sio_packet.cpp">
+      <Filter>源文件\Socket.IO</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Global.h">
@@ -55,6 +70,21 @@
     </ClInclude>
     <ClInclude Include="PackParser.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sio_client.h">
+      <Filter>源文件\Socket.IO</Filter>
+    </ClInclude>
+    <ClInclude Include="sio_message.h">
+      <Filter>源文件\Socket.IO</Filter>
+    </ClInclude>
+    <ClInclude Include="sio_socket.h">
+      <Filter>源文件\Socket.IO</Filter>
+    </ClInclude>
+    <ClInclude Include="internal\sio_client_impl.h">
+      <Filter>源文件\Socket.IO</Filter>
+    </ClInclude>
+    <ClInclude Include="internal\sio_packet.h">
+      <Filter>源文件\Socket.IO</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

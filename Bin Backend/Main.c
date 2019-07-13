@@ -3,6 +3,8 @@
 #include<process.h>
 #include"Global.h"
 
+#pragma comment(lib,"boost.lib")
+
 void WINAPI ConsoleThread();
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int iCmdShow)
